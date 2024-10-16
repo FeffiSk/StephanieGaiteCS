@@ -16,9 +16,14 @@ const tocarCarrito = () => {
     modelobutton.addEventListener("click", () => {
         modeloConteiner.style.display = "none";
     });
-
     modeloHeader.append(modelobutton);
 
+    if (carrito.length === 0) {
+        let carritoVacio = document.createElement("p");
+        carritoVacio.className = "carrito-vacio";
+        carritoVacio.innerText = "Tu carrito está vacío.";
+        modeloConteiner.append(carritoVacio);
+    } else {
     carrito.forEach((product) => {
         let carritoContent = document.createElement("div");
         carritoContent.className = "modelo-content";
@@ -32,11 +37,9 @@ const tocarCarrito = () => {
             <p>Total:${product.cantidad * product.precio}</p>
             <span class="delete-product"> ✘ </span>
         `;
-
         modeloConteiner.append(carritoContent);
 
         let restar = carritoContent.querySelector(".restar")
-
         restar.addEventListener("click", () => {
             if(product.cantidad !== 1) {
             product.cantidad--;
@@ -46,29 +49,37 @@ const tocarCarrito = () => {
         });
 
         let sumar = carritoContent.querySelector(".sumar")
-
         sumar.addEventListener("click", () => {
             product.cantidad++;
             guardarCosas();
             tocarCarrito();
         });
 
-        console.log(carrito.length);
-
         let eliminar = carritoContent.querySelector(".delete-product");
-
         eliminar.addEventListener("click", ()=> {
             eliminarProducto(product.id);
         });
     });
 
     const total = carrito.reduce((acc, el) => acc + el.precio * el.cantidad, 0);
-
     const totalBuying = document.createElement("div");
     totalBuying.className = "total-content";
-    totalBuying.innerHTML = `total a pagar: ${total} $
-     <button id="boton-comprar" class="boton-comprar">Finalizar compra</button>`;
+    totalBuying.innerHTML = `total a pagar: ${total} $     
+    <button id="boton-comprar" class="boton-comprar">Finalizar compra</button>`;
     modeloConteiner.append(totalBuying);
+
+    document.getElementById("boton-comprar").addEventListener("click", () => {
+        Swal.fire({
+            title: 'Compra finalizada',
+            text: 'Gracias por tu compra!',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
+            finalizarCompra();
+            modeloConteiner.style.display = "none";
+        });
+    });
+    }
 };
 
 verCarrito.addEventListener("click", tocarCarrito);
@@ -98,10 +109,7 @@ const carritoNumeros = () => {
 
 carritoNumeros();
 
-botonFinalizar.addEventListener("click", finalizarCompra());
-
 function finalizarCompra() {
-
     carrito.length = 0;
     carritoNumeros();
     guardarCosas();
