@@ -68,19 +68,12 @@ const tocarCarrito = () => {
     <button id="boton-comprar" class="boton-comprar">Finalizar compra</button>
     <button id="boton-vaciar" class="boton-vaciar">Vaciar carrito</button>`;
     modeloConteiner.append(totalBuying);
-
+   
     document.getElementById("boton-comprar").addEventListener("click", () => {
-        Swal.fire({
-            title: 'Compra finalizada',
-            text: 'Gracias por tu compra!',
-            icon: 'success',
-            confirmButtonText: 'Aceptar'
-        }).then(() => {
-            finalizarCompra();
-            modeloConteiner.style.display = "none";
-        });
+        mostrarFormularioCompra();
     });
-    }
+    };
+
     document.getElementById("boton-vaciar").addEventListener("click", () => {
         Swal.fire({
             title: "Seguro que quieres borrar todo?",
@@ -96,6 +89,44 @@ const tocarCarrito = () => {
               Swal.fire("Casi eliminas todo tu carrito UPS", "", "info");
             }
           });
+    });
+};
+
+const mostrarFormularioCompra = () => {
+    modeloConteiner.innerHTML = "";
+    
+    let formularioCompra = document.createElement("div");
+    formularioCompra.className = "formulario-compra";
+    formularioCompra.innerHTML = `
+        <h2>Completa tus datos para finalizar la compra</h2>
+        <form id="form-compra">
+            <label for="nombre">Nombre Completo:</label>
+            <input type="text" id="nombre" required pattern="[A-Za-z\s]+">
+
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" required>
+
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" id="telefono" required>
+
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" required>
+
+            <button type="submit" class="boton-finalizar">Finalizar Compra</button>
+        </form>
+    `;
+    modeloConteiner.append(formularioCompra);
+
+    document.getElementById("form-compra").addEventListener("submit", (event) => {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Compra finalizada',
+            text: 'Gracias por tu compra!',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
+            finalizarCompra();
+        });
     });
 };
 
