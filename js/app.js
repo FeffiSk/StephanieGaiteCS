@@ -27,6 +27,22 @@ const getProducts = async () => {
     
         comprar.addEventListener("click", () => {
             const repeat = carrito.some((repeatProduct) => repeatProduct.id === product.id);
+            Toastify({
+                text: "Agregado al carrito",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right", 
+                stopOnFocus: true, 
+                style: {
+                  background: "linear-gradient(to right, #0004e4, #ffffff)",
+                },
+                offset: {
+                    x: '3rem',
+                    y: '1rem'
+                  },
+                onClick: function(){}
+              }).showToast();
             
             if(repeat){
                 carrito.map((prod) => {

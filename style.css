@@ -13,7 +13,7 @@ body {
     display: flex;
     justify-content: space-between;
     height: 12vh;
-    background-color: #30260c;
+    background-color: #c78c0c;
 }
 
 .navbar-logo {
@@ -24,10 +24,7 @@ body {
     cursor: pointer;
 }
 
-.var-carrito {
-    font-size: 25px;
-    margin-right: 20px;
-    margin-top: 3.5vh;
+.ver-carrito {
     cursor: pointer;
 }
 
@@ -110,7 +107,7 @@ body {
     margin: 0 10%;
     max-height: 88vh;
     color: #ffffff;
-    background-color: #465858;
+    background-color: #015dc7;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -127,7 +124,7 @@ body {
 .modelo-header {
     display: flex;
     justify-content: space-around;
-    background-color: #549fbd;
+    background-color: #002d61;
     color: #ffffff;
     width: 100%;
 }
@@ -295,4 +292,13 @@ body {
     padding: 30px;
     text-align: center;
     font-size: 2rem;
+}
+
+.pie{
+    display: flex;
+    height: 40px;
+    justify-content:space-around;
+    align-items: center;
+    background-color: #c78c0c;
+    padding: 15px 2px 15px;
 }

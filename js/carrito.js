@@ -5,12 +5,12 @@ const tocarCarrito = () => {
     const modeloHeader = document.createElement("div");
     modeloHeader.className = "modelo-header"
     modeloHeader.innerHTML = `
-    <h1 class="modelo-header-titulo">Carrito.</h1>
+    <h1 class="modelo-header-titulo">Carrito</h1>
     `;
     modeloConteiner.append(modeloHeader);
 
     const modelobutton = document.createElement("h1");
-    modelobutton.innerText = "x";
+    modelobutton.innerHTML = '<i class="bi bi-x-circle"></i>';
     modelobutton.className = "modelo-header-button";
 
     modelobutton.addEventListener("click", () => {
@@ -31,11 +31,11 @@ const tocarCarrito = () => {
             <img src="${product.img}">
             <h3>${product.nombre}</h3>
             <p>${product.precio} $</p>
-            <span class="restar"> - </span>
+            <span class="restar"><i class="bi bi-dash"></i></span>
             <p>Cantidad:${product.cantidad}</p>
-            <span class="sumar"> + </span>
+            <span class="sumar"><i class="bi bi-plus"></i> </span>
             <p>Total:${product.cantidad * product.precio}</p>
-            <span class="delete-product"> ✘ </span>
+            <span class="delete-product"><i class="bi bi-trash"></i></span>
         `;
         modeloConteiner.append(carritoContent);
 
@@ -64,8 +64,9 @@ const tocarCarrito = () => {
     const total = carrito.reduce((acc, el) => acc + el.precio * el.cantidad, 0);
     const totalBuying = document.createElement("div");
     totalBuying.className = "total-content";
-    totalBuying.innerHTML = `total a pagar: ${total} $     
-    <button id="boton-comprar" class="boton-comprar">Finalizar compra</button>`;
+    totalBuying.innerHTML = `total a pagar: $ ${total}     
+    <button id="boton-comprar" class="boton-comprar">Finalizar compra</button>
+    <button id="boton-vaciar" class="boton-vaciar">Vaciar carrito</button>`;
     modeloConteiner.append(totalBuying);
 
     document.getElementById("boton-comprar").addEventListener("click", () => {
@@ -80,15 +81,45 @@ const tocarCarrito = () => {
         });
     });
     }
+    document.getElementById("boton-vaciar").addEventListener("click", () => {
+        Swal.fire({
+            title: "Seguro que quieres borrar todo?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Eliminar",
+            denyButtonText: `No eliminar`
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire("Eliminado!", "", "success");
+              VaciarCarrito();
+            } else if (result.isDenied) {
+              Swal.fire("Casi eliminas todo tu carrito UPS", "", "info");
+            }
+          });
+    });
 };
 
 verCarrito.addEventListener("click", tocarCarrito);
 
 const eliminarProducto = (id) => {
+    Toastify({
+        text: "Producto eliminado",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right", 
+        stopOnFocus: true, 
+        style: {
+          background: "linear-gradient(to right, #0004e4, #ffffff)",
+        },
+        offset: {
+            x: '3rem',
+            y: '1rem'
+          },
+        onClick: function(){}
+      }).showToast();
     const foundId = carrito.find((element) => element.id === id);
 
-    console.log(foundId);
-    
     carrito = carrito.filter((carritoId) => {
         return carritoId !== foundId;
     });
@@ -110,6 +141,13 @@ const carritoNumeros = () => {
 carritoNumeros();
 
 function finalizarCompra() {
+    carrito.length = 0;
+    carritoNumeros();
+    guardarCosas();
+    tocarCarrito();
+}
+
+function VaciarCarrito() {
     carrito.length = 0;
     carritoNumeros();
     guardarCosas();
